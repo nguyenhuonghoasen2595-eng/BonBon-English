@@ -3,156 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonBon English - Animal Flashcards</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f8ff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        h1 {
-            color: #ff6f61;
-            margin-bottom: 20px;
-        }
-        .flashcard-container {
-            perspective: 1000px;
-            width: 280px;
-            height: 360px;
-            cursor: pointer;
-        }
-        .card {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-            border-radius: 20px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-        }
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border: 4px solid #4cae4c;
-        }
-        .card-back {
-            transform: rotateY(180deg);
-            background: #e8f5e9;
-        }
-        .emoji {
-            font-size: 100px;
-        }
-        .word {
-            font-size: 32px;
-            font-weight: bold;
-            color: #2e7d32;
-            margin-top: 15px;
-        }
-        .translation {
-            font-size: 24px;
-            color: #555;
-            margin-top: 10px;
-        }
-        .controls {
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 18px;
-            border: none;
-            border-radius: 12px;
-            background-color: #ff6f61;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        button:hover {
-            background-color: #ee5b4f;
-        }
-        .audio-btn {
-            background-color: #4cae4c;
-        }
-    </style>
+    <title>BonBon English - Flashcards</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <h1>🐱 BonBon English 🐶</h1>
+    <header>
+        <h1>🎈 BonBon English 🎈</h1>
+        <p>Thẻ học từ vựng & mẫu câu tiếng Anh cho bé</p>
+    </header>
 
-    <div class="flashcard-container" onclick="flipCard()">
-        <div class="card" id="flashcard">
-            <div class="card-front">
-                <div class="emoji" id="emoji">🐶</div>
-                <div class="word" id="word">Dog</div>
-            </div>
-            <div class="card-back">
-                <div class="emoji" id="emoji-back">🐶</div>
-                <div class="translation" id="translation">Con chó</div>
+    <main class="container">
+        <!-- Thẻ Flashcard -->
+        <div class="card-container" onclick="flipCard()">
+            <div class="card" id="flashcard">
+                <!-- Mặt trước: Hình ảnh & Mẫu câu tiếng Anh -->
+                <div class="card-front">
+                    <span class="badge">Topic: Animals</span>
+                    <div class="emoji" id="card-emoji">🐶</div>
+                    <h2 id="card-en">It is a dog.</h2>
+                    <p class="vocab-word">Word: <strong>Dog</strong></p>
+                    <button class="audio-btn" onclick="speakText(event)">🔊 Nghe phát âm</button>
+                </div>
+                <!-- Mặt sau: Dịch nghĩa tiếng Việt -->
+                <div class="card-back">
+                    <span class="badge">Nghĩa tiếng Việt</span>
+                    <h2 id="card-vi">Đó là một con chó.</h2>
+                    <p class="hint">Bấm vào thẻ để lật lại mặt trước</p>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="controls">
-        <button class="audio-btn" onclick="speakWord()">🔊 Phát âm</button>
-        <button onclick="nextCard()">Thẻ tiếp ➔</button>
-    </div>
+        <!-- Thanh điều hướng -->
+        <div class="controls">
+            <button onclick="prevCard()">⬅️ Câu trước</button>
+            <span id="card-counter">1 / 4</span>
+            <button onclick="nextCard()">Câu tiếp ➡️</button>
+        </div>
+    </main>
 
-    <script>
-        const cards = [
-            { word: 'Dog', translation: 'Con chó', emoji: '🐶' },
-            { word: 'Cat', translation: 'Con mèo', emoji: '🐱' },
-            { word: 'Duck', translation: 'Con vịt', emoji: '🦆' },
-            { word: 'Lion', translation: 'Sư tử', emoji: '🦁' },
-            { word: 'Elephant', translation: 'Con voi', emoji: '🐘' },
-            { word: 'Monkey', translation: 'Con khỉ', emoji: '🐒' }
-        ];
+    <footer>
+        <p>🎁 Học online miễn phí | Tích hợp cùng Bộ Flashcard in giấy BonBon English</p>
+    </footer>
 
-        let currentIndex = 0;
-        const flashcard = document.getElementById('flashcard');
-
-        function updateCard() {
-            flashcard.classList.remove('flipped');
-            setTimeout(() => {
-                document.getElementById('emoji').innerText = cards[currentIndex].emoji;
-                document.getElementById('emoji-back').innerText = cards[currentIndex].emoji;
-                document.getElementById('word').innerText = cards[currentIndex].word;
-                document.getElementById('translation').innerText = cards[currentIndex].translation;
-            }, 200);
-        }
-
-        function flipCard() {
-            flashcard.classList.toggle('flipped');
-        }
-
-        function nextCard() {
-            currentIndex = (currentIndex + 1) % cards.length;
-            updateCard();
-        }
-
-        function speakWord() {
-            event.stopPropagation();
-            const utterance = new SpeechSynthesisUtterance(cards[currentIndex].word);
-            utterance.lang = 'en-US';
-            utterance.rate = 0.8;
-            window.speechSynthesis.speak(utterance);
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
