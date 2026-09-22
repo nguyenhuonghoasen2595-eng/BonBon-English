@@ -3,48 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonBon English - Flashcards</title>
+    <title>BonBon English - Học Tiếng Anh Cho Bé</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <!-- Header / Menu chính -->
     <header>
-        <h1>🎈 BonBon English 🎈</h1>
-        <p>Thẻ học từ vựng & mẫu câu tiếng Anh cho bé</p>
+        <div class="logo" onclick="showScreen('screen-main')">🎈 BonBon English</div>
+        <nav class="nav-tabs">
+            <button class="nav-btn active" onclick="switchCategory('vocab')">📚 Từ Vựng Chủ Đề</button>
+            <button class="nav-btn" onclick="switchCategory('sentences')">💬 Mẫu Câu Giao Tiếp</button>
+        </nav>
     </header>
 
     <main class="container">
-        <!-- Thẻ Flashcard -->
-        <div class="card-container" onclick="flipCard()">
-            <div class="card" id="flashcard">
-                <!-- Mặt trước: Hình ảnh & Mẫu câu tiếng Anh -->
-                <div class="card-front">
-                    <span class="badge">Topic: Animals</span>
-                    <div class="emoji" id="card-emoji">🐶</div>
-                    <h2 id="card-en">It is a dog.</h2>
-                    <p class="vocab-word">Word: <strong>Dog</strong></p>
-                    <button class="audio-btn" onclick="speakText(event)">🔊 Nghe phát âm</button>
-                </div>
-                <!-- Mặt sau: Dịch nghĩa tiếng Việt -->
-                <div class="card-back">
-                    <span class="badge">Nghĩa tiếng Việt</span>
-                    <h2 id="card-vi">Đó là một con chó.</h2>
-                    <p class="hint">Bấm vào thẻ để lật lại mặt trước</p>
+
+        <!-- Nút Nút Quay Lại (Ẩn/Hiện tự động) -->
+        <button id="back-btn" class="back-btn hidden" onclick="goBack()">⬅️ Quay lại</button>
+
+        <!-- MÀN HÌNH 1: Chọn Level & Chủ Đề -->
+        <section id="screen-main" class="screen">
+            <h2 id="section-title">📚 Học Từ Vựng Theo Chủ Đề</h2>
+            <p class="subtitle">Chọn cấp độ phù hợp cho bé nhé!</p>
+
+            <!-- Khối Level 1 -->
+            <div class="level-card level-1">
+                <h3>🟢 Level 1: Cơ Bản</h3>
+                <div class="topic-grid">
+                    <button class="topic-btn" onclick="openTopic('Animals', 1)">🐶 Động vật</button>
+                    <button class="topic-btn" onclick="openTopic('Fruits', 1)">🍎 Trái cây</button>
                 </div>
             </div>
-        </div>
 
-        <!-- Thanh điều hướng -->
-        <div class="controls">
-            <button onclick="prevCard()">⬅️ Câu trước</button>
-            <span id="card-counter">1 / 4</span>
-            <button onclick="nextCard()">Câu tiếp ➡️</button>
-        </div>
+            <!-- Khối Level 2 -->
+            <div class="level-card level-2">
+                <h3>🟡 Level 2: Trung Bình</h3>
+                <div class="topic-grid">
+                    <button class="topic-btn" onclick="openTopic('Vehicles', 2)">🚗 Phương tiện</button>
+                    <button class="topic-btn" onclick="openTopic('School', 2)">🏫 Trường học</button>
+                </div>
+            </div>
+
+            <!-- Khối Level 3 -->
+            <div class="level-card level-3">
+                <h3>🔴 Level 3: Nâng Cao</h3>
+                <div class="topic-grid">
+                    <button class="topic-btn" onclick="openTopic('Jobs', 3)">👨‍⚕️ Nghề nghiệp</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÀN HÌNH 2: Chọn Hoạt Động Học (Flashcard / Game / Nghe) -->
+        <section id="screen-activities" class="screen hidden">
+            <h2 id="active-topic-name">Chủ đề: Động vật (Level 1)</h2>
+            <p class="subtitle">Bé muốn tham gia hoạt động nào?</p>
+
+            <div class="activity-grid">
+                <div class="act-card" onclick="startActivity('flashcard')">
+                    <div class="act-icon">🎴</div>
+                    <h3>Thẻ Flashcard</h3>
+                    <p>Lật thẻ học từ mới & nghe phát âm</p>
+                </div>
+
+                <div class="act-card" onclick="startActivity('game')">
+                    <div class="act-icon">🎮</div>
+                    <h3>Game Ôn Tập</h3>
+                    <p>Trắc nghiệm đoán hình thử trí nhớ</p>
+                </div>
+
+                <div class="act-card" onclick="startActivity('listening')">
+                    <div class="act-icon">🎧</div>
+                    <h3>Luyện Nghe Phản Xạ</h3>
+                    <p>Nghe âm thanh và chọn đáp án đúng</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÀN HÌNH 3: Khu Vực Học Chi Tiết (Flashcard/Game/Nghe) -->
+        <section id="screen-workspace" class="screen hidden">
+            <!-- Nội dung Flashcard / Game sẽ tự hiện ở đây -->
+            <div id="workspace-content"></div>
+        </section>
+
     </main>
 
     <footer>
-        <p>🎁 Học online miễn phí | Tích hợp cùng Bộ Flashcard in giấy BonBon English</p>
+        <p>🎁 BonBon English - Hệ thống học tiếng Anh tương tác toàn diện cho bé</p>
     </footer>
 
     <script src="script.js"></script>

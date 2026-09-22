@@ -1,83 +1,92 @@
-// Danh sách thẻ mẫu câu & từ vựng
-const cards = [
-    {
-        emoji: "🐶",
-        en: "It is a dog.",
-        vi: "Đó là một con chó.",
-        word: "Dog"
-    },
-    {
-        emoji: "🐱",
-        en: "I see a cat.",
-        vi: "Tôi thấy một con mèo.",
-        word: "Cat"
-    },
-    {
-        emoji: "🍎",
-        en: "This is a red apple.",
-        vi: "Đây là một quả táo màu đỏ.",
-        word: "Apple"
-    },
-    {
-        emoji: "🚗",
-        en: "The car is fast.",
-        vi: "Chiếc xe ô tô chạy nhanh.",
-        word: "Car"
-    }
-];
+// Dữ liệu mẫu ban đầu
+let currentCategory = 'vocab'; // 'vocab' hoặc 'sentences'
+let selectedTopic = '';
+let currentLevel = 1;
 
-let currentIndex = 0;
+// Đổi Tab Từ vựng / Mẫu câu
+function switchCategory(cat) {
+    currentCategory = cat;
+    const btns = document.querySelectorAll('.nav-btn');
+    btns[0].classList.toggle('active', cat === 'vocab');
+    btns[1].classList.toggle('active', cat === 'sentences');
 
-// Cập nhật nội dung thẻ
-function updateCard() {
-    const cardElement = document.getElementById('flashcard');
-    cardElement.classList.remove('flipped'); // Reset về mặt trước khi đổi thẻ
-
-    setTimeout(() => {
-        const card = cards[currentIndex];
-        document.getElementById('card-emoji').innerText = card.emoji;
-        document.getElementById('card-en').innerText = card.en;
-        document.getElementById('card-vi').innerText = card.vi;
-        document.querySelector('.vocab-word strong').innerText = card.word;
-        document.getElementById('card-counter').innerText = `${currentIndex + 1} / ${cards.length}`;
-    }, 150);
-}
-
-// Lật thẻ
-function flipCard() {
-    document.getElementById('flashcard').classList.toggle('flipped');
-}
-
-// Chuyển thẻ tiếp theo
-function nextCard() {
-    if (currentIndex < cards.length - 1) {
-        currentIndex++;
-        updateCard();
-    }
-}
-
-// Quay lại thẻ trước
-function prevCard() {
-    if (currentIndex > 0) {
-        currentIndex--;
-        updateCard();
-    }
-}
-
-// Phát âm mẫu câu bằng AI giọng chuẩn của trình duyệt
-function speakText(event) {
-    event.stopPropagation(); // Tránh làm lật thẻ khi bấm nút nghe
-    const text = cards[currentIndex].en;
-    
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        utterance.rate = 0.85; // Tốc độ đọc chậm vừa phải cho bé dễ nghe
-        window.speechSynthesis.speak(utterance);
+    const title = document.getElementById('section-title');
+    if (cat === 'vocab') {
+        title.innerText = '📚 Học Từ Vựng Theo Chủ Đề';
     } else {
-        alert("Trình duyệt của bạn không hỗ trợ tính năng phát âm.");
+        title.innerText = '💬 Mẫu Câu Giao Tiếp Thông Dụng';
+    }
+    showScreen('screen-main');
+}
+
+// Chuyển đổi giữa các màn hình
+function showScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    document.getElementById(screenId).classList.remove('hidden');
+
+    const backBtn = document.getElementById('back-btn');
+    if (screenId === 'screen-main') {
+        backBtn.classList.add('hidden');
+    } else {
+        backBtn.classList.remove('hidden');
     }
 }
 
-// Khởi chạy thẻ đầu tiên
-updateCard();
+// Bấm chọn Chủ đề
+function openTopic(topicName, level) {
+    selectedTopic = topicName;
+    currentLevel = level;
+    document.getElementById('active-topic-name').innerText = `Chủ đề: ${topicName} (Level ${level})`;
+    showScreen('screen-activities');
+}
+
+// Bấm chọn Hoạt động (Flashcard / Game / Nghe)
+function startActivity(type) {
+    const workspace = document.getElementById('workspace-content');
+    
+    if (type === 'flashcard') {
+        workspace.innerHTML = `
+            <div class="flashcard-box">
+                <div class="emoji">🐶</div>
+                <h1>Dog</h1>
+                <p>Con chó</p>
+                <br>
+                <button class="topic-btn" onclick="speak('Dog')">🔊 Nghe phát âm</button>
+            </div>
+        `;
+    } else if (type === 'game') {
+        workspace.innerHTML = `
+            <div style="text-align:center; padding: 40px; background:white; border-radius:20px;">
+                <h2>🎮 Game Ôn Tập: ${selectedTopic}</h2>
+                <p style="margin: 20px 0;">Tính năng Game trắc nghiệm chọn hình đang được dựng...</p>
+            </div>
+        `;
+    } else if (type === 'listening') {
+        workspace.innerHTML = `
+            <div style="text-align:center; padding: 40px; background:white; border-radius:20px;">
+                <h2>🎧 Luyện Nghe Phản Xạ: ${selectedTopic}</h2>
+                <p style="margin: 20px 0;">Tính năng Luyện nghe phản xạ đang được dựng...</p>
+            </div>
+        `;
+    }
+    showScreen('screen-workspace');
+}
+
+// Nút Quay lại
+function goBack() {
+    const workspace = document.getElementById('screen-workspace');
+    const activities = document.getElementById('screen-activities');
+
+    if (!workspace.classList.contains('hidden')) {
+        showScreen('screen-activities');
+    } else if (!activities.classList.contains('hidden')) {
+        showScreen('screen-main');
+    }
+}
+
+// Phát âm
+function speak(text) {
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.lang = 'en-US';
+    window.speechSynthesis.speak(msg);
+}

@@ -6,160 +6,180 @@
 }
 
 body {
-    background-color: #f0f8ff;
+    background: #f0f4f8;
     color: #333;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    align-items: center;
 }
 
 header {
-    text-align: center;
-    padding: 20px;
-    background-color: #ff9a9e;
-    color: white;
-    width: 100%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    background: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-header h1 {
-    font-size: 2.2rem;
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ff6b6b;
+    cursor: pointer;
+}
+
+.nav-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: #e2e8f0;
+    color: #4a5568;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-btn.active, .nav-btn:hover {
+    background: #ff6b6b;
+    color: white;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     flex: 1;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
     padding: 20px;
-    width: 100%;
-    max-width: 500px;
 }
 
-/* Thẻ lật 3D */
-.card-container {
-    width: 100%;
-    height: 320px;
-    perspective: 1000px;
-    cursor: pointer;
+.hidden {
+    display: none !important;
 }
 
-.card {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform 0.6s ease;
-    border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.card.flipped {
-    transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 25px;
-    background-color: white;
-    border: 4px solid #ffcc5c;
-}
-
-.card-back {
-    transform: rotateY(180deg);
-    background-color: #fff9e6;
-    border-color: #ff6f69;
-}
-
-.badge {
-    background-color: #ffeead;
-    padding: 5px 15px;
+.back-btn {
+    background: #4a5568;
+    color: white;
+    border: none;
+    padding: 8px 16px;
     border-radius: 15px;
-    font-size: 0.9rem;
-    color: #884d00;
-}
-
-.emoji {
-    font-size: 5rem;
-    margin: 10px 0;
+    cursor: pointer;
+    margin-bottom: 15px;
 }
 
 h2 {
-    color: #2c3e50;
-    font-size: 1.6rem;
+    color: #2d3748;
+    font-size: 1.8rem;
     text-align: center;
 }
 
-.vocab-word {
-    font-size: 1.1rem;
-    color: #7f8c8d;
+.subtitle {
+    text-align: center;
+    color: #718096;
+    margin-bottom: 25px;
 }
 
-.audio-btn {
-    background-color: #ff6f69;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 25px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: background-color 0.2s;
+/* Level Cards */
+.level-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
 }
 
-.audio-btn:hover {
-    background-color: #ff4b44;
+.level-1 { border-left: 8px solid #48bb78; }
+.level-2 { border-left: 8px solid #ecc94b; }
+.level-3 { border-left: 8px solid #f56565; }
+
+.level-card h3 {
+    margin-bottom: 15px;
 }
 
-.hint {
-    font-size: 0.85rem;
-    color: #aaa;
-}
-
-/* Nút điều hướng */
-.controls {
+.topic-grid {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 25px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
-.controls button {
-    background-color: #96ceb4;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 1rem;
+.topic-btn {
+    background: #edf2f7;
+    border: 2px solid #cbd5e0;
+    padding: 10px 20px;
     border-radius: 15px;
+    font-size: 1.05rem;
     cursor: pointer;
     font-weight: 600;
+    transition: 0.2s;
 }
 
-.controls button:hover {
-    background-color: #76b899;
+.topic-btn:hover {
+    background: #bee3f8;
+    border-color: #3182ce;
 }
 
-#card-counter {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #555;
+/* Activities Grid */
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.act-card {
+    background: white;
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.act-card:hover {
+    transform: translateY(-5px);
+}
+
+.act-icon {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+/* Flashcard Workspace */
+.flashcard-box {
+    background: white;
+    border: 4px solid #ffca28;
+    border-radius: 25px;
+    padding: 40px;
+    text-align: center;
+    max-width: 450px;
+    margin: 0 auto;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.flashcard-box .emoji {
+    font-size: 6rem;
+}
+
+.flashcard-box h1 {
+    font-size: 2.2rem;
+    color: #2b6cb0;
+    margin: 15px 0 5px;
+}
+
+.flashcard-box p {
+    font-size: 1.3rem;
+    color: #e53e3e;
 }
 
 footer {
     text-align: center;
     padding: 15px;
+    color: #a0aec0;
     font-size: 0.9rem;
-    color: #777;
-    width: 100%;
 }
