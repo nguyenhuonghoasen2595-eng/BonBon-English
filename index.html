@@ -3,94 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonBon English - Học Tiếng Anh Cho Bé</title>
+    <title>BonBon English</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Header / Menu chính -->
-    <header>
-        <div class="logo" onclick="showScreen('screen-main')">🎈 BonBon English</div>
-        <nav class="nav-tabs">
-            <button class="nav-btn active" onclick="switchCategory('vocab')">📚 Từ Vựng Chủ Đề</button>
-            <button class="nav-btn" onclick="switchCategory('sentences')">💬 Mẫu Câu Giao Tiếp</button>
-        </nav>
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="logo" onclick="goToHome()">BONBON ENGLISH</h1>
+            <p class="tagline">Hệ thống học Tiếng Anh tương tác toàn diện</p>
+        </div>
     </header>
 
-    <main class="container">
+    <main class="main-container">
+        <!-- Thanh điều hướng & Breadcrumb -->
+        <div class="navigation-bar">
+            <button id="back-btn" class="btn-back hidden" onclick="goBack()">◄ Quay lại</button>
+            <div id="breadcrumb" class="breadcrumb-text">Trang chủ</div>
+        </div>
 
-        <!-- Nút Nút Quay Lại (Ẩn/Hiện tự động) -->
-        <button id="back-btn" class="back-btn hidden" onclick="goBack()">⬅️ Quay lại</button>
-
-        <!-- MÀN HÌNH 1: Chọn Level & Chủ Đề -->
-        <section id="screen-main" class="screen">
-            <h2 id="section-title">📚 Học Từ Vựng Theo Chủ Đề</h2>
-            <p class="subtitle">Chọn cấp độ phù hợp cho bé nhé!</p>
-
-            <!-- Khối Level 1 -->
-            <div class="level-card level-1">
-                <h3>🟢 Level 1: Cơ Bản</h3>
-                <div class="topic-grid">
-                    <button class="topic-btn" onclick="openTopic('Animals', 1)">🐶 Động vật</button>
-                    <button class="topic-btn" onclick="openTopic('Fruits', 1)">🍎 Trái cây</button>
+        <!-- BƯỚC 1: TRANG CHỦ (Chỉ gồm 2 thẻ lớn) -->
+        <section id="step-home" class="page-step">
+            <h2 class="section-title">CHỌN CHƯƠNG TRÌNH HỌC</h2>
+            <div class="portal-grid">
+                <div class="portal-card" onclick="selectProgram('vocab')">
+                    <div class="portal-img-box">
+                        <span class="portal-icon">📚</span>
+                    </div>
+                    <h3>TỪ VỰNG CHỦ ĐỀ</h3>
+                    <p>Học từ vựng theo các chủ đề trực quan, hình ảnh sinh động</p>
                 </div>
-            </div>
 
-            <!-- Khối Level 2 -->
-            <div class="level-card level-2">
-                <h3>🟡 Level 2: Trung Bình</h3>
-                <div class="topic-grid">
-                    <button class="topic-btn" onclick="openTopic('Vehicles', 2)">🚗 Phương tiện</button>
-                    <button class="topic-btn" onclick="openTopic('School', 2)">🏫 Trường học</button>
-                </div>
-            </div>
-
-            <!-- Khối Level 3 -->
-            <div class="level-card level-3">
-                <h3>🔴 Level 3: Nâng Cao</h3>
-                <div class="topic-grid">
-                    <button class="topic-btn" onclick="openTopic('Jobs', 3)">👨‍⚕️ Nghề nghiệp</button>
+                <div class="portal-card" onclick="selectProgram('sentences')">
+                    <div class="portal-img-box">
+                        <span class="portal-icon">💬</span>
+                    </div>
+                    <h3>MẪU CÂU GIAO TIẾP</h3>
+                    <p>Luyện tập các mẫu câu giao tiếp thông dụng theo tình huống</p>
                 </div>
             </div>
         </section>
 
-        <!-- MÀN HÌNH 2: Chọn Hoạt Động Học (Flashcard / Game / Nghe) -->
-        <section id="screen-activities" class="screen hidden">
-            <h2 id="active-topic-name">Chủ đề: Động vật (Level 1)</h2>
-            <p class="subtitle">Bé muốn tham gia hoạt động nào?</p>
+        <!-- BƯỚC 2: TRANG DANH MỤC CHỦ ĐỀ -->
+        <section id="step-topics" class="page-step hidden">
+            <h2 id="topics-title" class="section-title">DANH MỤC CHỦ ĐỀ</h2>
+            <div class="card-grid" id="topics-list">
+                <!-- Tự động sinh danh mục riêng cho Từ vựng / Mẫu câu -->
+            </div>
+        </section>
 
-            <div class="activity-grid">
-                <div class="act-card" onclick="startActivity('flashcard')">
-                    <div class="act-icon">🎴</div>
-                    <h3>Thẻ Flashcard</h3>
-                    <p>Lật thẻ học từ mới & nghe phát âm</p>
+        <!-- BƯỚC 3: TRANG CHỌN LEVEL (Level 1 -> 5) -->
+        <section id="step-levels" class="page-step hidden">
+            <h2 id="level-title" class="section-title">CHỌN CẤP ĐỘ (LEVEL)</h2>
+            <div class="level-list" id="levels-list">
+                <!-- Tự động sinh Level 1 đến Level 5 -->
+            </div>
+        </section>
+
+        <!-- BƯỚC 4: TRANG CHỌN HOẠT ĐỘNG (Flashcard, Game, Luyện nghe) -->
+        <section id="step-activities" class="page-step hidden">
+            <h2 id="activity-title" class="section-title">CHỌN HOẠT ĐỘNG HỌC</h2>
+            <div class="card-grid">
+                <div class="mode-card" onclick="selectActivity('flashcard')">
+                    <div class="mode-icon">🎴</div>
+                    <h3>HỌC QUA FLASHCARD</h3>
+                    <p>Xem thẻ ghi nhớ, hình ảnh và nghe phát âm chuẩn</p>
                 </div>
-
-                <div class="act-card" onclick="startActivity('game')">
-                    <div class="act-icon">🎮</div>
-                    <h3>Game Ôn Tập</h3>
-                    <p>Trắc nghiệm đoán hình thử trí nhớ</p>
+                <div class="mode-card" onclick="selectActivity('game_menu')">
+                    <div class="mode-icon">🎮</div>
+                    <h3>GAME ÔN TỪ</h3>
+                    <p>Củng cố ghi nhớ kiến thức qua các trò chơi tương tác</p>
                 </div>
-
-                <div class="act-card" onclick="startActivity('listening')">
-                    <div class="act-icon">🎧</div>
-                    <h3>Luyện Nghe Phản Xạ</h3>
-                    <p>Nghe âm thanh và chọn đáp án đúng</p>
+                <div class="mode-card" onclick="selectActivity('listening')">
+                    <div class="mode-icon">🎧</div>
+                    <h3>LUYỆN NGHE PHẢN XẠ</h3>
+                    <p>Nghe nội dung và thực hành phản xạ chọn đáp án</p>
                 </div>
             </div>
         </section>
 
-        <!-- MÀN HÌNH 3: Khu Vực Học Chi Tiết (Flashcard/Game/Nghe) -->
-        <section id="screen-workspace" class="screen hidden">
-            <!-- Nội dung Flashcard / Game sẽ tự hiện ở đây -->
-            <div id="workspace-content"></div>
+        <!-- BƯỚC 4B: TRANG MENU CÁC CHẾ ĐỘ GAME -->
+        <section id="step-games" class="page-step hidden">
+            <h2 class="section-title">CHỌN CHẾ ĐỘ GAME ÔN TỪ</h2>
+            <div class="card-grid">
+                <div class="mode-card" onclick="openGameMode('listen_choose')">
+                    <div class="mode-icon">🔊</div>
+                    <h3>NGHE VÀ CHỌN TỪ ĐÚNG</h3>
+                    <p>Lắng nghe âm thanh và chọn đáp án tương ứng</p>
+                </div>
+                <div class="mode-card" onclick="openGameMode('match_pair')">
+                    <div class="mode-icon">🧩</div>
+                    <h3>NỐI HÌNH VÀ TỪ</h3>
+                    <p>Ghép cặp từ tiếng Anh với hình ảnh chính xác</p>
+                </div>
+                <div class="mode-card" onclick="openGameMode('fill_blank')">
+                    <div class="mode-icon">✍️</div>
+                    <h3>NGHE VÀ ĐIỀN CÂU/TỪ</h3>
+                    <p>Lắng nghe phát âm và hoàn thành các ô trống</p>
+                </div>
+            </div>
         </section>
 
+        <!-- BƯỚC 5: MÀN HÌNH CHI TIẾT BÀI HỌC / GAME -->
+        <section id="step-workspace" class="page-step hidden">
+            <div id="workspace-content" class="workspace-box">
+                <!-- Nội dung thực hành sẽ hiển thị tại đây -->
+            </div>
+        </section>
     </main>
 
-    <footer>
-        <p>🎁 BonBon English - Hệ thống học tiếng Anh tương tác toàn diện cho bé</p>
+    <footer class="app-footer">
+        <p>© BONBON ENGLISH - BẢN QUYỀN THUỘC VỀ DỰ ÁN HỌC TIẾNG ANH TƯƠNG TÁC</p>
     </footer>
 
     <script src="script.js"></script>
