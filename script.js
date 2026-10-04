@@ -32,7 +32,7 @@ const vocabTopics = [
 ];
 
 const sentenceTopics = [
-    { id: 'home', name: 'GIAO TIẾP Ở NHÀ', icon: '🏠' },
+    { id: 'home', name: 'GIAO TIẾP Ô NHÀ', icon: '🏠' },
     { id: 'supermarket', name: 'KHI ĐI SIÊU THỊ', icon: '🛒' },
     { id: 'park', name: 'ĐI CÔNG VIÊN', icon: '🏞️' },
     { id: 'mom', name: 'CHƠI CÙNG MẸ', icon: '👩‍👧' }
