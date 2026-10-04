@@ -1,101 +1,16 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BONBON ENGLISH - Hệ thống học Tiếng Anh tương tác</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-
-    <header>
-        <h1>BONBON ENGLISH</h1>
-        <p>Hệ thống học Tiếng Anh tương tác toàn diện</p>
-    </header>
-
-    <div class="container">
-        <div class="navigation-bar" style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px;">
-            <button id="back-btn" class="back-btn hidden" onclick="goBack()">◄ Quay lại</button>
-            <div id="breadcrumb" class="breadcrumb">Trang chủ</div>
+<!-- MÀN HÌNH 5: GAME -->
+<div id="step-games" class="page-step hidden">
+    <h2 class="section-title">CHỌN CHẾ ĐỘ CHƠI</h2>
+    <div class="cards-grid">
+        <div class="card" onclick="openGameMode('listen_word')">
+            <div class="icon-box bg-blue">👂</div>
+            <h2>NGHE VÀ CHỌN TỪ</h2>
+            <p>Nghe phát âm từ vựng và chọn đáp án đúng</p>
         </div>
-
-        <!-- MÀN HÌNH 1: TRANG CHỦ -->
-        <div id="step-home" class="page-step">
-            <h2 class="section-title">CHỌN CHƯƠNG TRÌNH HỌC</h2>
-            <div class="cards-grid">
-                <div class="card" onclick="selectProgram('vocab')">
-                    <div class="icon-box bg-blue">📚</div>
-                    <h2>TỪ VỰNG CHỦ ĐỀ</h2>
-                    <p>Học từ vựng theo các chủ đề trực quan, hình ảnh sinh động</p>
-                </div>
-                <div class="card" onclick="selectProgram('sentences')">
-                    <div class="icon-box bg-purple">💬</div>
-                    <h2>MẪU CÂU GIAO TIẾP</h2>
-                    <p>Luyện tập các mẫu câu giao tiếp thông dụng theo tình huống</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- MÀN HÌNH 2: CHỌN LEVEL -->
-        <div id="step-levels" class="page-step hidden">
-            <h2 id="level-title" class="section-title">CHỌN CẤP ĐỘ (LEVEL)</h2>
-            <div id="levels-list" class="levels-grid" style="display: grid; gap: 15px; max-width: 600px; margin: 0 auto;"></div>
-        </div>
-
-        <!-- MÀN HÌNH 3: CHỌN CHỦ ĐỀ -->
-        <div id="step-topics" class="page-step hidden">
-            <h2 id="topics-title" class="section-title">CHỌN CHỦ ĐỀ</h2>
-            <div id="topics-list" class="cards-grid"></div>
-        </div>
-
-        <!-- MÀN HÌNH 4: CHỌN HOẠT ĐỘNG -->
-        <div id="step-activities" class="page-step hidden">
-            <h2 id="activity-title" class="section-title">CHỌN HOẠT ĐỘNG HỌC</h2>
-            <div class="cards-grid">
-                <div class="card" onclick="selectActivity('flashcard')">
-                    <div class="icon-box bg-blue">🃏</div>
-                    <h2>HỌC FLASHCARD</h2>
-                    <p>Xem hình ảnh, phiên âm, câu ví dụ và nghe phát âm chuẩn</p>
-                </div>
-                <div class="card" onclick="selectActivity('game_menu')">
-                    <div class="icon-box bg-purple">🎮</div>
-                    <h2>GAME ÔN TỪ</h2>
-                    <p>Các trò chơi tương tác thú vị giúp ghi nhớ từ vựng lâu hơn</p>
-                </div>
-                <div class="card" onclick="selectActivity('listening')">
-                    <div class="icon-box bg-blue">🎧</div>
-                    <h2>LUYỆN NGHE PHẢN XẠ</h2>
-                    <p>Rèn luyện kỹ năng nghe và phản xạ tiếng Anh tự nhiên</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- MÀN HÌNH 5: GAME -->
-        <div id="step-games" class="page-step hidden">
-            <h2 class="section-title">CHỌN TRÒ CHƠI</h2>
-            <div class="cards-grid">
-                <div class="card" onclick="openGameMode('listen_choose')">
-                    <div class="icon-box bg-blue">👂</div>
-                    <h2>NGHE VÀ CHỌN TỪ</h2>
-                    <p>Nghe âm thanh và chọn hình ảnh/từ đúng</p>
-                </div>
-                <div class="card" onclick="openGameMode('match_pair')">
-                    <div class="icon-box bg-purple">🧩</div>
-                    <h2>NỐI HÌNH VÀ TỪ</h2>
-                    <p>Ghép cặp từ tiếng Anh với hình ảnh tương ứng</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- MÀN HÌNH 6: KHUNG NỘI DUNG -->
-        <div id="step-workspace" class="page-step hidden">
-            <div id="workspace-content" style="background: white; padding: 30px; border-radius: 24px; box-shadow: 0 8px 20px rgba(0,0,0,0.06);"></div>
+        <div class="card" onclick="openGameMode('listen_sentence')">
+            <div class="icon-box bg-purple">💬</div>
+            <h2>NGHE VÀ CHỌN CÂU</h2>
+            <p>Nghe câu ví dụ và chọn hình ảnh tương ứng</p>
         </div>
     </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+</div>
