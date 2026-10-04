@@ -1,121 +1,209 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BonBon English</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+// Quản lý lịch sử luồng đi (History Stack)
+let navigationHistory = ['step-home'];
+let currentProgram = '';
+let currentLevel = '';
+let currentTopic = '';
 
-    <header class="app-header">
-        <div class="header-content">
-            <h1 class="logo" onclick="goToHome()">BONBON ENGLISH</h1>
-            <p class="tagline">Hệ thống học Tiếng Anh tương tác toàn diện</p>
+// KHO DỮ LIỆU TỪ VỰNG (LEVEL 1 -> CÁC CHỦ ĐỀ)
+const lessonData = {
+    1: { // LEVEL 1
+        'ĐỘNG VẬT': [
+            { word: 'Dog', spelling: '/dɒɡ/', meaning: 'Con chó', image: '🐶', example: 'I have a small dog.', exampleMeaning: 'Tôi có một chú chó nhỏ.' },
+            { word: 'Cat', spelling: '/kæt/', meaning: 'Con mèo', image: '🐱', example: 'The cat is sleeping.', exampleMeaning: 'Con mèo đang ngủ.' },
+            { word: 'Duck', spelling: '/dʌk/', meaning: 'Con vịt', image: '🦆', example: 'The duck swims in the pond.', exampleMeaning: 'Con vịt bơi ở trong ao.' },
+            { word: 'Pig', spelling: '/pɪɡ/', meaning: 'Con heo (lợn)', image: '🐷', example: 'The pig is pink.', exampleMeaning: 'Con heo có màu hồng.' },
+            { word: 'Bird', spelling: '/bɜːd/', meaning: 'Con chim', image: '🐦', example: 'A bird is singing.', exampleMeaning: 'Một chú chim đang hót.' },
+            { word: 'Cow', spelling: '/kaʊ/', meaning: 'Con bò sữa', image: '🐮', example: 'The cow gives sweet milk.', exampleMeaning: 'Con bò cho sữa ngọt.' },
+            { word: 'Fish', spelling: '/fɪʃ/', meaning: 'Con cá', image: '🐟', example: 'The fish swims fast.', exampleMeaning: 'Con cá bơi rất nhanh.' },
+            { word: 'Rabbit', spelling: '/ˈræb.ɪt/', meaning: 'Con thỏ', image: '🐰', example: 'The rabbit eats carrots.', exampleMeaning: 'Con thỏ ăn cà rốt.' },
+            { word: 'Monkey', spelling: '/ˈmʌŋ.ki/', meaning: 'Con khỉ', image: '🐒', example: 'The monkey loves bananas.', exampleMeaning: 'Con khỉ rất thích chuối.' },
+            { word: 'Elephant', spelling: '/ˈel.ɪ.fənt/', meaning: 'Con voi', image: '🐘', example: 'The elephant has a big nose.', exampleMeaning: 'Con voi có cái mũi lớn.' }
+        ],
+        'TRÁI CÂY': [
+            { word: 'Apple', spelling: '/ˈæp.əl/', meaning: 'Quả táo', image: '🍎', example: 'An apple is red.', exampleMeaning: 'Quả táo có màu đỏ.' },
+            { word: 'Banana', spelling: '/bəˈnɑː.nə/', meaning: 'Quả chuối', image: '🍌', example: 'Bananas are sweet.', exampleMeaning: 'Chuối rất ngọt.' }
+        ]
+    }
+};
+
+// Danh sách các Chủ đề
+const vocabTopics = [
+    { id: 'animals', name: 'ĐỘNG VẬT', icon: '🐶' },
+    { id: 'fruits', name: 'TRÁI CÂY', icon: '🍎' },
+    { id: 'vehicles', name: 'PHƯƠNG TIỆN GIAO THÔNG', icon: '🚗' },
+    { id: 'vegetables', name: 'RAU CỦ QUẢ', icon: '🥦' }
+];
+
+const sentenceTopics = [
+    { id: 'home', name: 'GIAO TIẾP Ở NHÀ', icon: '🏠' },
+    { id: 'supermarket', name: 'KHI ĐI SIÊU THỊ', icon: '🛒' },
+    { id: 'park', name: 'ĐI CÔNG VIÊN', icon: '🏞️' },
+    { id: 'mom', name: 'CHƠI CÙNG MẸ', icon: '👩‍👧' }
+];
+
+// MÁY PHÁT ÂM TIẾNG ANH (Web Speech API)
+function speakText(text) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.85;
+        window.speechSynthesis.speak(utterance);
+    } else {
+        alert('Trình duyệt của bạn không hỗ trợ phát âm.');
+    }
+}
+
+// Điều hướng màn hình
+function navigateTo(stepId, breadcrumbText) {
+    document.querySelectorAll('.page-step').forEach(el => el.classList.add('hidden'));
+    document.getElementById(stepId).classList.remove('hidden');
+
+    if (navigationHistory[navigationHistory.length - 1] !== stepId) {
+        navigationHistory.push(stepId);
+    }
+
+    const backBtn = document.getElementById('back-btn');
+    if (stepId === 'step-home') {
+        backBtn.classList.add('hidden');
+        navigationHistory = ['step-home'];
+    } else {
+        backBtn.classList.remove('hidden');
+    }
+
+    if (breadcrumbText) {
+        document.getElementById('breadcrumb').innerText = breadcrumbText;
+    }
+}
+
+function goBack() {
+    if (navigationHistory.length > 1) {
+        navigationHistory.pop();
+        const previousStep = navigationHistory[navigationHistory.length - 1];
+        navigateTo(previousStep);
+    }
+}
+
+function goToHome() {
+    navigateTo('step-home', 'Trang chủ');
+}
+
+// BƯỚC 1: Chọn Từ vựng hoặc Mẫu câu -> Chuyển sang chọn LEVEL
+function selectProgram(prog) {
+    currentProgram = prog;
+    const progName = prog === 'vocab' ? 'TỪ VỰNG CHỦ ĐỀ' : 'MẪU CÂU GIAO TIẾP';
+    
+    document.getElementById('level-title').innerText = `CHỌN CẤP ĐỘ (LEVEL): ${progName}`;
+    
+    const levelsListEl = document.getElementById('levels-list');
+    let levelsHTML = '';
+    for (let i = 1; i <= 5; i++) {
+        levelsHTML += `
+            <div class="level-item" onclick="selectLevel(${i})">
+                <span>CẤP ĐỘ / LEVEL ${i}</span>
+                <span>►</span>
+            </div>
+        `;
+    }
+    levelsListEl.innerHTML = levelsHTML;
+
+    navigateTo('step-levels', `Trang chủ > ${progName}`);
+}
+
+// BƯỚC 2: Chọn LEVEL -> Chuyển sang chọn CHỦ ĐỀ
+function selectLevel(levelNum) {
+    currentLevel = levelNum;
+    const isVocab = currentProgram === 'vocab';
+    const progName = isVocab ? 'TỪ VỰNG CHỦ ĐỀ' : 'MẪU CÂU GIAO TIẾP';
+    const topicsData = isVocab ? vocabTopics : sentenceTopics;
+    
+    document.getElementById('topics-title').innerText = `CHỌN CHỦ ĐỀ (LEVEL ${levelNum})`;
+
+    const topicsListEl = document.getElementById('topics-list');
+    topicsListEl.innerHTML = topicsData.map(t => `
+        <div class="mode-card" onclick="selectTopic('${t.name}')">
+            <div class="mode-icon">${t.icon}</div>
+            <h3>${t.name}</h3>
         </div>
-    </header>
+    `).join('');
 
-    <main class="main-container">
-        <!-- Thanh điều hướng & Breadcrumb -->
-        <div class="navigation-bar">
-            <button id="back-btn" class="btn-back hidden" onclick="goBack()">◄ Quay lại</button>
-            <div id="breadcrumb" class="breadcrumb-text">Trang chủ</div>
-        </div>
+    navigateTo('step-topics', `Trang chủ > ${progName} > Level ${levelNum}`);
+}
 
-        <!-- BƯỚC 1: TRANG CHỦ (Chỉ gồm 2 thẻ lớn) -->
-        <section id="step-home" class="page-step">
-            <h2 class="section-title">CHỌN CHƯƠNG TRÌNH HỌC</h2>
-            <div class="portal-grid">
-                <div class="portal-card" onclick="selectProgram('vocab')">
-                    <div class="portal-img-box">
-                        <span class="portal-icon">📚</span>
+// BƯỚC 3: Chọn CHỦ ĐỀ -> Chuyển sang chọn HOẠT ĐỘNG (Flashcard, Game...)
+function selectTopic(topicName) {
+    currentTopic = topicName;
+    const progName = currentProgram === 'vocab' ? 'Từ vựng' : 'Mẫu câu';
+    document.getElementById('activity-title').innerText = `HOẠT ĐỘNG: ${currentTopic} (LEVEL ${currentLevel})`;
+    navigateTo('step-activities', `Trang chủ > Level ${currentLevel} > ${currentTopic}`);
+}
+
+// BƯỚC 4: Chọn Hoạt động
+function selectActivity(type) {
+    if (type === 'game_menu') {
+        navigateTo('step-games', `Trang chủ > Level ${currentLevel} > ${currentTopic} > Game`);
+    } else if (type === 'flashcard') {
+        renderFlashcards();
+    } else if (type === 'listening') {
+        renderWorkspace(`LUYỆN NGHE PHẢN XẠ: ${currentTopic} (LEVEL ${currentLevel})`);
+    }
+}
+
+// Hiển thị Flashcard
+function renderFlashcards() {
+    const ws = document.getElementById('workspace-content');
+    const words = (lessonData[currentLevel] && lessonData[currentLevel][currentTopic]) || [];
+
+    if (words.length === 0) {
+        ws.innerHTML = `
+            <h2 style="font-weight:bold; margin-bottom: 15px; color: #1a365d;">HỌC FLASHCARD: ${currentTopic} (LEVEL ${currentLevel})</h2>
+            <p style="font-size: 1.1rem; color: #718096;">Nội dung từ vựng cho chủ đề này đang được cập nhật...</p>
+        `;
+    } else {
+        let cardsHTML = words.map(item => `
+            <div style="background: #ffffff; border: 2px solid #cbd5e0; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; align-items: center;">
+                <div style="font-size: 4rem; margin-bottom: 10px;">${item.image}</div>
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                    <h3 style="font-size: 1.8rem; color: #1a365d; font-weight: bold; margin: 0;">${item.word}</h3>
+                    <button onclick="speakText('${item.word}')" style="background: #ebf8ff; border: 1px solid #3182ce; color: #3182ce; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center;" title="Nghe đọc từ">🔊</button>
+                </div>
+                <p style="font-size: 0.95rem; color: #718096; font-style: italic; margin-bottom: 4px;">${item.spelling}</p>
+                <p style="font-size: 1.1rem; color: #2b6cb0; font-weight: bold; margin-bottom: 15px;">${item.meaning}</p>
+                <div style="background: #f7fafc; border-top: 1px dashed #cbd5e0; padding-top: 10px; width: 100%; text-align: center;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 2px;">
+                        <span style="font-size: 0.95rem; font-weight: bold; color: #2d3748;">"${item.example}"</span>
+                        <button onclick="speakText('${item.example.replace(/'/g, "\\'")}')" style="background: none; border: none; cursor: pointer; font-size: 0.9rem;" title="Nghe đọc câu ví dụ">🔊</button>
                     </div>
-                    <h3>TỪ VỰNG CHỦ ĐỀ</h3>
-                    <p>Học từ vựng theo các chủ đề trực quan, hình ảnh sinh động</p>
-                </div>
-
-                <div class="portal-card" onclick="selectProgram('sentences')">
-                    <div class="portal-img-box">
-                        <span class="portal-icon">💬</span>
-                    </div>
-                    <h3>MẪU CÂU GIAO TIẾP</h3>
-                    <p>Luyện tập các mẫu câu giao tiếp thông dụng theo tình huống</p>
+                    <p style="font-size: 0.85rem; color: #718096;">(${item.exampleMeaning})</p>
                 </div>
             </div>
-        </section>
+        `).join('');
 
-        <!-- BƯỚC 2: TRANG DANH MỤC CHỦ ĐỀ -->
-        <section id="step-topics" class="page-step hidden">
-            <h2 id="topics-title" class="section-title">DANH MỤC CHỦ ĐỀ</h2>
-            <div class="card-grid" id="topics-list">
-                <!-- Tự động sinh danh mục riêng cho Từ vựng / Mẫu câu -->
+        ws.innerHTML = `
+            <h2 style="font-weight:bold; margin-bottom: 25px; color: #1a365d;">HỌC FLASHCARD: ${currentTopic} (LEVEL ${currentLevel})</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+                ${cardsHTML}
             </div>
-        </section>
+        `;
+    }
 
-        <!-- BƯỚC 3: TRANG CHỌN LEVEL (Level 1 -> 5) -->
-        <section id="step-levels" class="page-step hidden">
-            <h2 id="level-title" class="section-title">CHỌN CẤP ĐỘ (LEVEL)</h2>
-            <div class="level-list" id="levels-list">
-                <!-- Tự động sinh Level 1 đến Level 5 -->
-            </div>
-        </section>
+    navigateTo('step-workspace', `Trang chủ > Level ${currentLevel} > ${currentTopic} > Flashcard`);
+}
 
-        <!-- BƯỚC 4: TRANG CHỌN HOẠT ĐỘNG (Flashcard, Game, Luyện nghe) -->
-        <section id="step-activities" class="page-step hidden">
-            <h2 id="activity-title" class="section-title">CHỌN HOẠT ĐỘNG HỌC</h2>
-            <div class="card-grid">
-                <div class="mode-card" onclick="selectActivity('flashcard')">
-                    <div class="mode-icon">🎴</div>
-                    <h3>HỌC QUA FLASHCARD</h3>
-                    <p>Xem thẻ ghi nhớ, hình ảnh và nghe phát âm chuẩn</p>
-                </div>
-                <div class="mode-card" onclick="selectActivity('game_menu')">
-                    <div class="mode-icon">🎮</div>
-                    <h3>GAME ÔN TỪ</h3>
-                    <p>Củng cố ghi nhớ kiến thức qua các trò chơi tương tác</p>
-                </div>
-                <div class="mode-card" onclick="selectActivity('listening')">
-                    <div class="mode-icon">🎧</div>
-                    <h3>LUYỆN NGHE PHẢN XẠ</h3>
-                    <p>Nghe nội dung và thực hành phản xạ chọn đáp án</p>
-                </div>
-            </div>
-        </section>
+function openGameMode(gameType) {
+    let title = '';
+    if (gameType === 'listen_choose') title = 'GAME: NGHE VÀ CHỌN TỪ ĐÚNG';
+    if (gameType === 'match_pair') title = 'GAME: NỐI HÌNH VÀ TỪ';
+    if (gameType === 'fill_blank') title = 'GAME: NGHE VÀ ĐIỀN CÂU/TỪ';
 
-        <!-- BƯỚC 4B: TRANG MENU CÁC CHẾ ĐỘ GAME -->
-        <section id="step-games" class="page-step hidden">
-            <h2 class="section-title">CHỌN CHẾ ĐỘ GAME ÔN TỪ</h2>
-            <div class="card-grid">
-                <div class="mode-card" onclick="openGameMode('listen_choose')">
-                    <div class="mode-icon">🔊</div>
-                    <h3>NGHE VÀ CHỌN TỪ ĐÚNG</h3>
-                    <p>Lắng nghe âm thanh và chọn đáp án tương ứng</p>
-                </div>
-                <div class="mode-card" onclick="openGameMode('match_pair')">
-                    <div class="mode-icon">🧩</div>
-                    <h3>NỐI HÌNH VÀ TỪ</h3>
-                    <p>Ghép cặp từ tiếng Anh với hình ảnh chính xác</p>
-                </div>
-                <div class="mode-card" onclick="openGameMode('fill_blank')">
-                    <div class="mode-icon">✍️</div>
-                    <h3>NGHE VÀ ĐIỀN CÂU/TỪ</h3>
-                    <p>Lắng nghe phát âm và hoàn thành các ô trống</p>
-                </div>
-            </div>
-        </section>
+    renderWorkspace(`${title} - ${currentTopic} (LEVEL ${currentLevel})`);
+}
 
-        <!-- BƯỚC 5: MÀN HÌNH CHI TIẾT BÀI HỌC / GAME -->
-        <section id="step-workspace" class="page-step hidden">
-            <div id="workspace-content" class="workspace-box">
-                <!-- Nội dung thực hành sẽ hiển thị tại đây -->
-            </div>
-        </section>
-    </main>
-
-    <footer class="app-footer">
-        <p>© BONBON ENGLISH - BẢN QUYỀN THUỘC VỀ DỰ ÁN HỌC TIẾNG ANH TƯƠNG TÁC</p>
-    </footer>
-
-    <script src="script.js"></script>
-</body>
-</html>
+function renderWorkspace(titleText) {
+    const ws = document.getElementById('workspace-content');
+    ws.innerHTML = `
+        <h2 style="font-weight:bold; margin-bottom: 15px; color: #1a365d;">${titleText}</h2>
+        <p style="font-size: 1.1rem; color: #4a5568;">[Khung làm việc đã sẵn sàng để tích hợp nội dung bài học/trò chơi]</p>
+    `;
+    navigateTo('step-workspace', `Trang chủ > Level ${currentLevel} > ${currentTopic} > Thực hành`);
+}
