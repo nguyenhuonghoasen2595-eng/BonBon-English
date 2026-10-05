@@ -1,16 +1,99 @@
-<!-- MÀN HÌNH 5: GAME -->
-<div id="step-games" class="page-step hidden">
-    <h2 class="section-title">CHỌN CHẾ ĐỘ CHƠI</h2>
-    <div class="cards-grid">
-        <div class="card" onclick="openGameMode('listen_word')">
-            <div class="icon-box bg-blue">👂</div>
-            <h2>NGHE VÀ CHỌN TỪ</h2>
-            <p>Nghe phát âm từ vựng và chọn đáp án đúng</p>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BonBon English - Học Tiếng Anh Cho Bé</title>
+    <!-- Liên kết file style.css để làm đẹp giao diện -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- THANH TIÊU ĐỀ & ĐIỀU HƯỚNG -->
+    <header style="background: #ffffff; border-bottom: 2px solid #e2e8f0; padding: 15px 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div style="max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <button id="back-btn" onclick="goBack()" class="hidden" style="padding: 8px 16px; background: #edf2f7; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: #4a5568;">◄ Quay lại</button>
+                <h1 onclick="navigateTo('step-home')" style="font-size: 1.5rem; color: #3182ce; font-weight: bold; cursor: pointer; margin: 0;">🎈 BonBon English</h1>
+            </div>
+            <div id="breadcrumb" style="font-size: 0.9rem; color: #718096; font-weight: 500;">Trang chủ</div>
         </div>
-        <div class="card" onclick="openGameMode('listen_sentence')">
-            <div class="icon-box bg-purple">💬</div>
-            <h2>NGHE VÀ CHỌN CÂU</h2>
-            <p>Nghe câu ví dụ và chọn hình ảnh tương ứng</p>
+    </header>
+
+    <!-- KHU VỰC NỘI DUNG CHÍNH -->
+    <main style="max-width: 900px; margin: 20px auto; padding: 0 15px;">
+
+        <!-- BƯỚC 1: TRANG CHỦ (CHỌN CHƯƠNG TRÌNH HỌC) -->
+        <div id="step-home" class="page-step">
+            <h2 style="text-align: center; color: #2b6cb0; margin-bottom: 25px; font-size: 1.8rem;">BÉ MUỐN HỌC GÌ HÔM NAY?</h2>
+            <div class="card-grid">
+                <div class="card" onclick="selectProgram('vocab')">
+                    <div class="icon-box">📚</div>
+                    <h2>TỪ VỰNG CHỦ ĐỀ</h2>
+                    <p>Học từ vựng qua hình ảnh sinh động & âm thanh chuẩn</p>
+                </div>
+                <div class="card" onclick="selectProgram('sentences')">
+                    <div class="icon-box">💬</div>
+                    <h2>MẪU CÂU GIAO TIẾP</h2>
+                    <p>Luyện các câu giao tiếp ngắn hàng ngày cho bé</p>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+
+        <!-- BƯỚC 2: CHỌN CẤP ĐỘ (LEVEL 1 - 20) -->
+        <div id="step-levels" class="page-step hidden">
+            <h2 id="level-title" style="text-align: center; color: #2b6cb0; margin-bottom: 20px;">CHỌN CẤP ĐỘ</h2>
+            <div id="levels-list" style="display: flex; flex-direction: column; gap: 12px; max-width: 500px; margin: 0 auto;"></div>
+        </div>
+
+        <!-- BƯỚC 3: CHỌN CHỦ ĐỀ -->
+        <div id="step-topics" class="page-step hidden">
+            <h2 id="topics-title" style="text-align: center; color: #2b6cb0; margin-bottom: 20px;">CHỌN CHỦ ĐỀ</h2>
+            <div id="topics-list" class="card-grid"></div>
+        </div>
+
+        <!-- BƯỚC 4: CHỌN HOẠT ĐỘNG (FLASHCARD HOẶC GAME) -->
+        <div id="step-activities" class="page-step hidden">
+            <h2 id="activity-title" style="text-align: center; color: #2b6cb0; margin-bottom: 25px;">CHỌN HOẠT ĐỘNG</h2>
+            <div class="card-grid">
+                <div class="card" onclick="selectActivity('flashcard')">
+                    <div class="icon-box">🃏</div>
+                    <h2>HỌC FLASHCARD</h2>
+                    <p>Xem thẻ từ vựng lật 2 mặt kèm hình ảnh & phát âm</p>
+                </div>
+                <div class="card" onclick="selectActivity('game_menu')">
+                    <div class="icon-box">🎮</div>
+                    <h2>TRÒ CHƠI LUYỆN TẬP</h2>
+                    <p>Thử thách nghe & chọn hình ảnh đúng</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BƯỚC 5: CHỌN CHẾ ĐỘ GAME -->
+        <div id="step-games" class="page-step hidden">
+            <h2 style="text-align: center; color: #2b6cb0; margin-bottom: 25px;">CHỌN CHẾ ĐỘ CHƠI</h2>
+            <div class="card-grid">
+                <div class="card" onclick="openGameMode('listen_word')">
+                    <div class="icon-box">👂</div>
+                    <h2>NGHE VÀ CHỌN TỪ</h2>
+                    <p>Nghe phát âm từ vựng và chọn đáp án đúng</p>
+                </div>
+                <div class="card" onclick="openGameMode('listen_sentence')">
+                    <div class="icon-box">💬</div>
+                    <h2>NGHE VÀ CHỌN CÂU</h2>
+                    <p>Nghe câu ví dụ và chọn hình ảnh tương ứng</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- KHU VỰC HIỂN THỊ HỌC FLASHCARD HOẶC GAME -->
+        <div id="step-workspace" class="page-step hidden">
+            <div id="workspace-content"></div>
+        </div>
+
+    </main>
+
+    <!-- LIÊN KẾT FILE JAVASCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>
