@@ -3,108 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BonBon English - Level 1</title>
-  <link rel="stylesheet" href="style.css">
+  <title>BonBon English - Học Tiếng Anh Cho Bé</title>
+  
+  <!-- 1. CSS Giao diện tách nhỏ -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <!-- Theme màu sắc riêng theo Level (có thể đổi linh hoạt) -->
+  <link id="theme-link" rel="stylesheet" href="css/themes/level1-theme.css">
 </head>
 <body>
-
   <div class="app-container">
-    <!-- Chọn chủ đề -->
-    <div class="topic-selector">
-      <label for="topic-select">Chủ đề: </label>
+    <!-- Header: Sao & Chế độ học -->
+    <header class="header">
+      <div class="stars-count">⭐ <span id="total-stars">0</span></div>
+      <div class="main-tabs">
+        <button id="tab-vocab-btn" class="tab-btn active" onclick="switchMainTab('vocab')">Từ Vựng</button>
+        <button id="tab-sentence-btn" class="tab-btn" onclick="switchMainTab('sentence')">Mẫu Câu</button>
+      </div>
+    </header>
+
+    <!-- Chọn Cấp độ, Chủ đề & Tốc độ -->
+    <div class="controls-top">
+      <select id="level-select" onchange="changeLevel(this.value)">
+        <option value="level1">🌱 Cấp độ 1 (Level 1)</option>
+        <option value="level2">🌿 Cấp độ 2 (Level 2)</option>
+      </select>
+
       <select id="topic-select" onchange="changeTopic(this.value)">
         <option value="animals">🐶 Động vật</option>
         <option value="colors">🎨 Màu sắc</option>
-        <option value="fruits">🍎 Trái cây</option>
-        <option value="vegetables">🥦 Rau củ quả</option>
-        <option value="weather">☀️ Thời tiết</option>
-        <option value="vehicles">🚗 Phương tiện</option>
-        <option value="family">👨‍👩‍👧 Gia đình</option>
-        <option value="toys">🧸 Đồ chơi</option>
-        <option value="school">🎒 Dụng cụ học tập</option>
-        <option value="food">🍕 Món ăn</option>
-        <option value="drinks">🧃 Đồ uống</option>
-        <option value="places">🏫 Địa điểm</option>
-        <option value="routine">⏰ Daily Routine</option>
-        <option value="jobs">👩‍🏫 Nghề nghiệp</option>
-        <option value="emotions">😊 Cảm xúc</option>
-        <option value="personality">🌟 Tính cách</option>
       </select>
-    </div>
 
-    <!-- Header: Level & Sao -->
-    <div class="header-info">
-      <span id="level-title">Level 1</span>
-      <div class="star-counter">
-        ⭐ <span id="total-stars">0</span>
+      <div class="speed-controls">
+        <button class="speed-btn active" onclick="setSpeed(1.0)">1.0x</button>
+        <button class="speed-btn" onclick="setSpeed(0.75)">0.75x</button>
       </div>
     </div>
 
-    <!-- Tiến trình -->
+    <!-- Thanh tiến trình -->
     <div class="progress-container">
-      <div id="progress-text">1 / 5</div>
-      <div class="progress-bar">
-        <div class="progress-bar-fill" id="progress-bar-fill"></div>
-      </div>
+      <div id="progress-bar-fill" class="progress-bar"></div>
+      <span id="progress-text">1 / 2</span>
     </div>
 
-    <!-- Thẻ lật 3D 2 Mặt -->
+    <!-- Thẻ Flashcard 3D -->
     <div class="card-container" onclick="flipCard()">
       <div class="card-inner" id="card-inner">
-        <!-- MẶT TRƯỚC -->
+        <!-- Mặt trước -->
         <div class="card-front">
-          <span class="flip-hint">🔄 Chạm để lật mặt sau</span>
-          <img id="card-image" src="" alt="Từ vựng">
-          <div class="word" id="word">Word</div>
-          <div class="meaning" id="meaning">Nghĩa tiếng Việt</div>
-          
-          <!-- Tốc độ âm thanh mặt trước -->
-          <div class="audio-controls" onclick="event.stopPropagation();">
-            <span style="font-size: 13px; font-weight: bold; color: #666;">Tốc độ:</span>
-            <button onclick="setSpeed(0.75)" class="speed-btn">0.75x</button>
-            <button onclick="setSpeed(1.0)" class="speed-btn active">1.0x</button>
-            <button onclick="setSpeed(1.25)" class="speed-btn">1.25x</button>
-            <button class="btn-audio" onclick="playCurrentWordAudio()">🔊 Nghe từ</button>
-          </div>
+          <img id="card-image" src="" alt="Illustration">
+          <h2 id="word">Word</h2>
+          <p id="meaning">Nghĩa tiếng Việt</p>
+          <button class="btn-audio" onclick="event.stopPropagation(); playCurrentFrontAudio();">🔊 Nghe</button>
         </div>
-
-        <!-- MẶT SAU -->
+        <!-- Mặt sau -->
         <div class="card-back">
-          <span class="flip-hint">🔄 Chạm để quay lại</span>
-          <h3 style="color: #ff9800; margin-bottom: 10px;">💡 Câu Ví Dụ</h3>
-          <div class="example-sentence" id="example-en">Example English sentence</div>
-          <div class="example-meaning" id="example-vi">Nghĩa tiếng Việt của câu</div>
-          
-          <!-- Tốc độ âm thanh mặt sau -->
-          <div class="audio-controls" onclick="event.stopPropagation();">
-            <span style="font-size: 13px; font-weight: bold; color: #666;">Tốc độ:</span>
-            <button onclick="setSpeed(0.75)" class="speed-btn">0.75x</button>
-            <button onclick="setSpeed(1.0)" class="speed-btn active">1.0x</button>
-            <button onclick="setSpeed(1.25)" class="speed-btn">1.25x</button>
-            <button class="btn-audio" onclick="playCurrentExampleAudio()">🔊 Nghe câu</button>
-          </div>
+          <h3 id="back-title">💡 Câu Ví Dụ</h3>
+          <p id="example-en" class="example-en">Example sentence</p>
+          <p id="example-vi" class="example-vi">Dịch câu ví dụ</p>
+          <button class="btn-audio" onclick="event.stopPropagation(); playCurrentBackAudio();">🔊 Nghe câu</button>
         </div>
       </div>
     </div>
 
-    <!-- Nút điều khiển -->
+    <!-- Nút Điều hướng -->
     <div class="controls">
-      <button class="btn btn-prev" onclick="prevWord()">⬅️ Quay lại</button>
-      <button class="btn btn-next" onclick="nextWord()">Tiếp ➡️</button>
+      <button class="btn btn-prev" onclick="prevItem()">⬅ Quay lại</button>
+      <button class="btn btn-next" onclick="nextItem()">Tiếp theo ➡</button>
     </div>
   </div>
 
-  <!-- Popup Chúc Mừng Hoàn Thành -->
-  <div class="popup-overlay" id="congrat-popup">
+  <!-- Popup Chúc Mừng -->
+  <div class="popup-overlay" id="congrat-popup" style="display: none;">
     <div class="popup-content">
-      <h2 style="color: #ff9800; margin-bottom: 10px; font-size: 28px;">🎉 Tuyệt vời! 🎉</h2>
-      <p style="font-size: 18px; color: #333;" id="popup-message">Bé đã hoàn thành bài học!</p>
-      <div style="font-size: 36px; margin: 15px 0;">⭐⭐⭐⭐⭐</div>
-      <p style="font-size: 16px; color: #4caf50; font-weight: bold;">+5 Sao thưởng</p>
-      <button class="btn-continue" onclick="closePopupAndNext()">Tiếp tục 🚀</button>
+      <h2 style="color: var(--primary-color, #ff9800); margin-bottom: 10px;">🎉 PHẦN THƯỞNG! 🎉</h2>
+      <p id="popup-message" style="font-size: 18px; color: #333;">Bé đã hoàn thành xuất sắc bài học!</p>
+      <div style="font-size: 36px; margin: 15px 0;">⭐ +5</div>
+      <button class="btn-continue" onclick="closePopupAndNext()">Bài tiếp theo 🚀</button>
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- 2. Dữ liệu bài học JS -->
+  <script src="js/data/vocab/level1.js"></script>
+  <script src="js/data/vocab/level2.js"></script>
+  <script src="js/data/sentences/level1.js"></script>
+
+  <!-- Gộp bộ dữ liệu cho App đọc -->
+  <script>
+    const vocabData = { level1: vocabLevel1, level2: vocabLevel2 };
+    const sentenceData = { level1: sentenceLevel1 };
+  </script>
+
+  <!-- 3. Logic xử lý tính năng JS -->
+  <script src="js/audio.js"></script>
+  <script src="js/card-flip.js"></script>
+  <script src="js/reward.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

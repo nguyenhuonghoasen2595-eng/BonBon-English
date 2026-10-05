@@ -1,0 +1,7 @@
+/* THEME MÀU SẮC RIÊNG LEVEL 1 (Màu Xanh Tươi Mát) */
+:root {
+  --primary-color: #4caf50;      /* Màu xanh lá cây chủ đạo */
+  --secondary-color: #2196f3;    /* Màu xanh dương phụ */
+  --card-border-color: #c8e6c9;  /* Viền thẻ xanh nhạt */
+  --bg-color: #f0f8ff;           /* Nền xanh nhạt tươi mát */
+}
