@@ -7,7 +7,11 @@ let currentIndex = 0;
 // Danh sách tên hiển thị tiếng Việt của các Chủ đề
 const topicNames = {
   animals: "🐶 Động vật",
-  colors: "🎨 Màu sắc"
+  colors: "🎨 Màu sắc",
+  fruits: "🍎 Hoa quả",
+  body: "👁️ Bộ phận cơ thể",
+  toys: "⚽ Đồ chơi",
+  actions: "🏃 Hành động"
 };
 
 function getCurrentDataSource() {
