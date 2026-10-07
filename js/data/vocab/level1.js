@@ -7,11 +7,11 @@ const vocabLevel1 = {
     { word: "Cow", meaning: "Con bò", example: "Big cow", exampleVi: "Con bò to", image: "https://images.unsplash.com/photo-1527153857715-3908f2bae5e8?w=400" }
   ],
   colors: [
-    { word: "Red", meaning: "Màu đỏ", example: "Red apple", exampleVi: "Quả táo đỏ", image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=400" }, // Khối màu đỏ thuần
-    { word: "Blue", meaning: "Màu xanh dương", example: "Blue sky", exampleVi: "Bầu trời xanh", image: "https://images.unsplash.com/photo-1557683316-973673baf926?w=400" }, // Màu xanh dương thuần
-    { word: "Yellow", meaning: "Màu vàng", example: "Yellow sun", exampleVi: "Mặt trời vàng", image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400" }, // Màu vàng thuần
-    { word: "Green", meaning: "Màu xanh lá", example: "Green grass", exampleVi: "Cỏ xanh lá", image: "https://images.unsplash.com/photo-1533038590840-1cde6e668a91?w=400" }, // Màu xanh lá thuần
-    { word: "Pink", meaning: "Màu hồng", example: "Pink ball", exampleVi: "Quả bóng hồng", image: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?w=400" }  // Màu hồng thuần
+    { word: "Red", meaning: "Màu đỏ", example: "Red apple", exampleVi: "Quả táo đỏ", image: "https://dummyimage.com/400x300/ff0000/ff0000.png" },
+    { word: "Blue", meaning: "Màu xanh dương", example: "Blue sky", exampleVi: "Bầu trời xanh", image: "https://dummyimage.com/400x300/007bff/007bff.png" },
+    { word: "Yellow", meaning: "Màu vàng", example: "Yellow sun", exampleVi: "Mặt trời vàng", image: "https://dummyimage.com/400x300/ffcc00/ffcc00.png" },
+    { word: "Green", meaning: "Màu xanh lá", example: "Green grass", exampleVi: "Cỏ xanh lá", image: "https://dummyimage.com/400x300/28a745/28a745.png" },
+    { word: "Pink", meaning: "Màu hồng", example: "Pink ball", exampleVi: "Quả bóng hồng", image: "https://dummyimage.com/400x300/ff69b4/ff69b4.png" }
   ],
   fruits: [
     { word: "Apple", meaning: "Quả táo", example: "Sweet apple", exampleVi: "Quả táo ngọt", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400" },
@@ -21,11 +21,11 @@ const vocabLevel1 = {
     { word: "Plum", meaning: "Quả mận", example: "Red plum", exampleVi: "Quả mận đỏ", image: "https://images.unsplash.com/photo-1522184216316-3c25379f963c?w=400" }
   ],
   body: [
-    { word: "Eye", meaning: "Mắt", example: "Two eyes", exampleVi: "Hai con mắt", image: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400" }, // Cận cảnh con mắt
-    { word: "Nose", meaning: "Mũi", example: "My nose", exampleVi: "Mũi của tớ", image: "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?w=400" }, // Cận cảnh mũi
-    { word: "Mouth", meaning: "Miệng", example: "Open mouth", exampleVi: "Mở miệng ra", image: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=400" }, // Cận cảnh đôi môi/miệng
-    { word: "Hand", meaning: "Bàn tay", example: "Clean hand", exampleVi: "Bàn tay sạch", image: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=400" }, // Chi tiết bàn tay
-    { word: "Foot", meaning: "Bàn chân", example: "One foot", exampleVi: "Một bàn chân", image: "https://images.unsplash.com/photo-1519011985187-444d62641929?w=400" }  // Chi tiết bàn chân
+    { word: "Eye", meaning: "Mắt", example: "Two eyes", exampleVi: "Hai con mắt", image: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=400" },
+    { word: "Nose", meaning: "Mũi", example: "My nose", exampleVi: "Mũi của tớ", image: "https://images.unsplash.com/photo-1582233479366-6d38bc390a08?w=400" },
+    { word: "Mouth", meaning: "Miệng", example: "Open mouth", exampleVi: "Mở miệng ra", image: "https://images.unsplash.com/photo-1518310383802-640c2de311b2?w=400" },
+    { word: "Hand", meaning: "Bàn tay", example: "Clean hand", exampleVi: "Bàn tay sạch", image: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=400" },
+    { word: "Foot", meaning: "Bàn chân", example: "One foot", exampleVi: "Một bàn chân", image: "https://images.unsplash.com/photo-1519011985187-444d62641929?w=400" }
   ],
   toys: [
     { word: "Ball", meaning: "Quả bóng", example: "Red ball", exampleVi: "Quả bóng đỏ", image: "https://images.unsplash.com/photo-1614632537190-23e4146777db?w=400" },
