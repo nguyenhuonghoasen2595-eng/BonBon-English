@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BonBon English</title>
-
-  <!-- Hãy đảm bảo 3 dòng này trỏ đúng vào thư mục css/ -->
+  <title>BonBon English - Học Tiếng Anh Cho Bé</title>
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/style.css">
@@ -13,63 +11,118 @@
 <body>
 
   <div class="app-container">
-    <!-- Header / Thanh công cụ -->
-    <header class="top-bar">
-      <button class="home-btn">🏠 Trang chủ</button>
-      <div class="tags">
-        <span class="tag">Từ vựng • Level 1</span>
-        <span class="tag">🐶 Động vật</span>
-      </div>
-      <div class="speed-controls">
-        <button class="speed-btn active" data-speed="1.0">1.0x</button>
-        <button class="speed-btn" data-speed="0.75">0.75x</button>
-        <button class="speed-btn" data-speed="0.5">0.5x</button>
-      </div>
-      <div class="score">⭐ <span id="score-val">0</span></div>
-    </header>
 
-    <div class="progress-text"><span id="current-index">1</span> / <span id="total-count">5</span></div>
+    <!-- ================= MÀN HÌNH TRANG CHỦ ================= -->
+    <main id="home-view" class="view active">
+      <!-- Section Giới thiệu -->
+      <section class="hero-section">
+        <div class="logo-box">🎈</div>
+        <h1>BonBon English</h1>
+        <p class="subtitle">Học Tiếng Anh Vui Nhộn Cho Bé</p>
+        <p class="description">Phương pháp học tương tác qua Flashcard 3D và Mẫu câu giao tiếp thực tế giúp bé phản xạ tự nhiên!</p>
+      </section>
 
-    <!-- FLASHCARD CONTAINER (TẢI VỪA KHỔ 500x500 & CÓ CHỨC NĂNG LẬT) -->
-    <div class="card-wrapper">
-      <div class="flashcard" id="flashcard">
-        
-        <!-- MẶT TRƯỚC: HÌNH + TỪ VỰNG -->
-        <div class="card-face card-front">
-          <div class="img-box">
-            <img id="card-img" src="" alt="Vocabulary Image">
+      <!-- Section Chọn Chế Độ Học -->
+      <section class="mode-section">
+        <h2>Chủ Đề Học Tập</h2>
+
+        <!-- Nút 1: Luyện Từ Vựng -->
+        <div class="mode-card">
+          <div class="mode-header">
+            <span class="icon">🐶</span>
+            <div>
+              <h3>Luyện từ vựng theo chủ đề</h3>
+              <p>Học từ mới qua thẻ Flashcard 3D sinh động</p>
+            </div>
           </div>
-          <div class="card-info">
-            <h2 id="card-word">Dog</h2>
-            <p id="card-meaning">Con chó</p>
-            <button class="audio-btn" id="btn-audio-word">🔊 Nghe từ</button>
+          <div class="level-group">
+            <button class="level-btn" data-mode="vocab" data-level="1">Level 1</button>
+            <button class="level-btn" data-mode="vocab" data-level="2">Level 2</button>
+            <button class="level-btn" data-mode="vocab" data-level="3">Level 3</button>
+            <button class="level-btn" data-mode="vocab" data-level="4">Level 4</button>
+            <button class="level-btn" data-mode="vocab" data-level="5">Level 5</button>
           </div>
-          <span class="flip-hint">🔄 Bấm vào thẻ để lật mặt sau</span>
         </div>
 
-        <!-- MẶT SAU: CỤM TỪ VÍ DỤ -->
-        <div class="card-face card-back">
-          <div class="example-box">
-            <h3>💡 Câu Ví Dụ</h3>
-            <p class="example-en" id="card-example">A cute dog</p>
-            <p class="example-vi" id="card-example-vi">Một chú chó đáng yêu</p>
-            <button class="audio-btn highlight" id="btn-audio-example">🔊 Nghe câu</button>
+        <!-- Nút 2: Học Giao Tiếp -->
+        <div class="mode-card">
+          <div class="mode-header">
+            <span class="icon">💬</span>
+            <div>
+              <h3>Học giao tiếp</h3>
+              <p>Rèn luyện phản xạ mẫu câu thoại thực tế</p>
+            </div>
           </div>
-          <span class="flip-hint">🔄 Bấm vào thẻ để lật mặt trước</span>
+          <div class="level-group">
+            <button class="level-btn alt" data-mode="sentences" data-level="1">Level 1</button>
+            <button class="level-btn alt" data-mode="sentences" data-level="2">Level 2</button>
+            <button class="level-btn alt" data-mode="sentences" data-level="3">Level 3</button>
+            <button class="level-btn alt" data-mode="sentences" data-level="4">Level 4</button>
+            <button class="level-btn alt" data-mode="sentences" data-level="5">Level 5</button>
+          </div>
         </div>
+      </section>
+    </main>
 
+
+    <!-- ================= MÀN HÌNH BÀI HỌC (ẨN MẶC ĐỊNH) ================= -->
+    <div id="lesson-view" class="view">
+      <header class="top-bar">
+        <button class="home-btn" id="btn-back-home">🏠 Trang chủ</button>
+        <div class="tags">
+          <span class="tag" id="current-mode-tag">Từ vựng</span>
+          <span class="tag" id="current-level-tag">Level 1</span>
+        </div>
+        <div class="speed-controls">
+          <button class="speed-btn active" data-speed="1.0">1.0x</button>
+          <button class="speed-btn" data-speed="0.75">0.75x</button>
+          <button class="speed-btn" data-speed="0.5">0.5x</button>
+        </div>
+        <div class="score">⭐ <span id="score-val">0</span></div>
+      </header>
+
+      <div class="progress-text"><span id="current-index">1</span> / <span id="total-index">1</span></div>
+
+      <!-- KHUNG FLASHCARD -->
+      <div class="card-wrapper">
+        <div class="flashcard" id="flashcard">
+          <!-- Mặt trước -->
+          <div class="card-face card-front">
+            <div class="img-box">
+              <img id="card-img" src="" alt="Vocabulary Image">
+            </div>
+            <div class="card-info">
+              <h2 id="card-word">--</h2>
+              <p id="card-meaning">--</p>
+              <button class="audio-btn" id="btn-audio-word">🔊 Nghe đọc</button>
+            </div>
+            <span class="flip-hint">🔄 Bấm vào thẻ để lật mặt sau</span>
+          </div>
+
+          <!-- Mặt sau -->
+          <div class="card-face card-back">
+            <div class="example-box">
+              <h3>💡 Ngữ Cảnh Ứng Dụng</h3>
+              <p class="example-en" id="card-example">--</p>
+              <p class="example-vi" id="card-example-vi">--</p>
+              <button class="audio-btn highlight" id="btn-audio-example">🔊 Nghe câu</button>
+            </div>
+            <span class="flip-hint">🔄 Bấm vào thẻ để lật mặt trước</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nút chuyển bài -->
+      <div class="navigation-controls">
+        <button id="prev-btn">⬅ Quay lại</button>
+        <button id="next-btn">Tiếp theo ➡</button>
       </div>
     </div>
 
-    <!-- NÚT CHUYỂN BÀI -->
-    <div class="navigation-controls">
-      <button id="prev-btn">⬅ Quay lại</button>
-      <button id="next-btn">Tiếp theo ➡</button>
-    </div>
   </div>
-<!-- NHÚNG CÁC FILE SCRIPT THEO ĐÚNG THỨ TỰ -->
-  <script src="js/app.js"></script>
-  <script src="js/data/vocab/level1.js"></script>
+
+  <!-- SCRIPT DATA & APP LOGIC -->
+  <script src="js/data/vocab/level1_animals.js"></script>
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
