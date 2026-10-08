@@ -1,4 +1,6 @@
-/* BỐ CỤC KHUNG HÌNH & THIẾT LẬP CHUNG */
+/* ==========================================
+   1. CẤU HÌNH CHUNG & RESET
+   ========================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -7,43 +9,262 @@
 }
 
 body {
-  background-color: var(--bg-color, #f0f8ff);
+  background-color: #f4f7f6;
+  color: #333;
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
   padding: 15px;
-  transition: background-color 0.4s ease;
 }
 
 .app-container {
-  background: white;
   width: 100%;
-  max-width: 450px;
+  max-width: 480px;
+  background: #ffffff;
   border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   padding: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
 }
 
-.header {
+/* ==========================================
+   2. QUẢN LÝ ẨN / HIỆN MÀN HÌNH (VIEWS)
+   ========================================== */
+.view {
+  display: none;
+  width: 100%;
+}
+
+.view.active {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: 15px;
+  gap: 15px;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.controls-top {
-  display: flex;
-  gap: 6px;
-  justify-content: space-between;
-  margin-bottom: 15px;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-#level-select, #topic-select {
-  padding: 6px 8px;
-  border-radius: 10px;
-  border: 2px solid var(--primary-color, #4caf50);
+/* ==========================================
+   3. HEADER & TRANG CHỦ (HOME VIEW)
+   ========================================== */
+.hero-section {
+  text-align: center;
+  padding: 10px 0 15px;
+}
+
+.logo-box {
+  font-size: 50px;
+  margin-bottom: 5px;
+}
+
+.hero-section h1 {
+  color: #FF6B6B;
+  font-size: 28px;
+  margin-bottom: 5px;
+  font-weight: 800;
+}
+
+.subtitle {
   font-weight: bold;
-  outline: none;
+  color: #4A90E2;
+  margin-bottom: 8px;
+}
+
+.description {
   font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* ==========================================
+   4. CÁC THẺ CHẾ ĐỘ HỌC (MODE CARDS)
+   ========================================== */
+.mode-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mode-section h2 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.mode-card {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 15px;
+  transition: all 0.2s ease;
+}
+
+.mode-card:hover {
+  border-color: #cbd5e1;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.mode-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.mode-header .icon {
+  font-size: 32px;
+}
+
+.mode-header h3 {
+  font-size: 16px;
+  color: #2d3748;
+}
+
+.mode-header p {
+  font-size: 12px;
+  color: #718096;
+}
+
+/* ==========================================
+   5. NÚT CHỌN LEVEL & NÚT BẤM CHUNG
+   ========================================== */
+.level-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.level-btn {
+  flex: 1;
+  min-width: 60px;
+  padding: 10px 5px;
+  border: none;
+  background: #FFD166;
+  color: #333;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 13px;
+  text-align: center;
+}
+
+.level-btn.alt {
+  background: #06D6A0;
+  color: white;
+}
+
+.level-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.level-btn:active {
+  transform: translateY(0);
+}
+
+/* Nút quay lại Trang chủ */
+.back-btn {
+  align-self: flex-start;
+  background: #edf2f7;
+  color: #4a5568;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #e2e8f0;
+}
+
+/* ==========================================
+   6. MÀN HÌNH HỌC (FLASHCARD VIEW)
+   ========================================== */
+.flashcard-container {
+  width: 100%;
+  perspective: 1000px;
+  margin: 15px 0;
+}
+
+.flashcard {
+  width: 100%;
+  height: 280px;
+  background: #ffffff;
+  border: 3px solid #FFD166;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flashcard img {
+  max-width: 140px;
+  max-height: 140px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.flashcard .word {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1a202c;
+  margin-bottom: 4px;
+}
+
+.flashcard .phonetic {
+  font-size: 14px;
+  color: #718096;
+}
+
+.flashcard .meaning {
+  font-size: 18px;
+  color: #06D6A0;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+/* Nút điều hướng Qua / Lại bài */
+.controls {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #118AB2;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.action-btn:hover {
+  background: #0e6c8d;
 }
