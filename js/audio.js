@@ -1,35 +1,21 @@
-// XỬ LÝ ÂM THANH & TỐC ĐỘ ĐỌC
+// js/audio.js
+
 let currentSpeed = 1.0;
 
-function setSpeed(speed) {
-  currentSpeed = speed;
-  document.querySelectorAll('.speed-btn').forEach(btn => {
-    btn.classList.toggle('active', parseFloat(btn.innerText) === speed);
-  });
+// Cập nhật tốc độ đọc
+export function setAudioSpeed(speed) {
+  currentSpeed = parseFloat(speed);
 }
 
-function speakText(text) {
-  if ('speechSynthesis' in window) {
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = currentSpeed;
-    window.speechSynthesis.speak(utterance);
-  }
+// Lấy tốc độ hiện tại
+export function getAudioSpeed() {
+  return currentSpeed;
 }
 
-function playCurrentFrontAudio() {
-  const dataSource = getCurrentDataSource();
-  const list = dataSource[currentTopic];
-  if (list && list[currentIndex]) {
-    speakText(currentMainTab === 'vocab' ? list[currentIndex].word : list[currentIndex].phrase);
-  }
-}
-
-function playCurrentBackAudio() {
-  const dataSource = getCurrentDataSource();
-  const list = dataSource[currentTopic];
-  if (list && list[currentIndex]) {
-    speakText(currentMainTab === 'vocab' ? list[currentIndex].example : list[currentIndex].response);
-  }
+// Hàm phát audio
+export function playAudio(audioPath) {
+  if (!audioPath) return;
+  const audio = new Audio(audioPath);
+  audio.playbackRate = currentSpeed;
+  audio.play().catch(err => console.log("Chưa tìm thấy file audio:", audioPath));
 }

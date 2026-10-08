@@ -3,130 +3,69 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BonBon English - Học Tiếng Anh Cho Bé</title>
-  
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link id="theme-link" rel="stylesheet" href="css/themes/level1-theme.css">
+  <title>BonBon English</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
   <div class="app-container">
-    
-    <!-- Header chung -->
-    <header class="header">
-      <button class="btn-home" onclick="showHomeView()">🏠 Trang chủ</button>
-      <div class="stars-count">⭐ <span id="total-stars">0</span></div>
+    <!-- Header / Thanh công cụ -->
+    <header class="top-bar">
+      <button class="home-btn">🏠 Trang chủ</button>
+      <div class="tags">
+        <span class="tag">Từ vựng • Level 1</span>
+        <span class="tag">🐶 Động vật</span>
+      </div>
+      <div class="speed-controls">
+        <button class="speed-btn active" data-speed="1.0">1.0x</button>
+        <button class="speed-btn" data-speed="0.75">0.75x</button>
+        <button class="speed-btn" data-speed="0.5">0.5x</button>
+      </div>
+      <div class="score">⭐ <span id="score-val">0</span></div>
     </header>
 
-    <!-- ================= 1. MÀN HÌNH TRANG CHỦ ================= -->
-    <div id="home-view" class="view-section">
-      <h1 class="main-title">🎈 BonBon English 🎈</h1>
-      <p class="sub-title">Chọn chương trình bé muốn học hôm nay nhé!</p>
+    <div class="progress-text"><span id="current-index">1</span> / <span id="total-count">5</span></div>
 
-      <!-- BƯỚC 1: Chọn Mục lớn (Từ vựng / Mẫu câu) -->
-      <div id="step-category" class="selection-step">
-        <div class="menu-card card-vocab" onclick="selectCategory('vocab')">
-          <div class="card-icon">📚</div>
-          <h2>Từ Vựng Theo Chủ Đề</h2>
-          <p>Học từ mới qua hình ảnh sinh động</p>
+    <!-- FLASHCARD CONTAINER (TẢI VỪA KHỔ 500x500 & CÓ CHỨC NĂNG LẬT) -->
+    <div class="card-wrapper">
+      <div class="flashcard" id="flashcard">
+        
+        <!-- MẶT TRƯỚC: HÌNH + TỪ VỰNG -->
+        <div class="card-face card-front">
+          <div class="img-box">
+            <img id="card-img" src="" alt="Vocabulary Image">
+          </div>
+          <div class="card-info">
+            <h2 id="card-word">Dog</h2>
+            <p id="card-meaning">Con chó</p>
+            <button class="audio-btn" id="btn-audio-word">🔊 Nghe từ</button>
+          </div>
+          <span class="flip-hint">🔄 Bấm vào thẻ để lật mặt sau</span>
         </div>
 
-        <div class="menu-card card-sentence" onclick="selectCategory('sentence')">
-          <div class="card-icon">💬</div>
-          <h2>Mẫu Câu Giao Tiếp</h2>
-          <p>Luyện phản xạ giao diện hàng ngày</p>
+        <!-- MẶT SAU: CỤM TỪ VÍ DỤ -->
+        <div class="card-face card-back">
+          <div class="example-box">
+            <h3>💡 Câu Ví Dụ</h3>
+            <p class="example-en" id="card-example">A cute dog</p>
+            <p class="example-vi" id="card-example-vi">Một chú chó đáng yêu</p>
+            <button class="audio-btn highlight" id="btn-audio-example">🔊 Nghe câu</button>
+          </div>
+          <span class="flip-hint">🔄 Bấm vào thẻ để lật mặt trước</span>
         </div>
-      </div>
 
-      <!-- BƯỚC 2: Chọn Level (Ẩn ban đầu) -->
-      <div id="step-level" class="selection-step" style="display: none;">
-        <button class="btn-back-step" onclick="backToStep('category')">⬅ Chọn mục khác</button>
-        <h2 id="level-step-title" class="step-heading">Chọn Cấp Độ</h2>
-        <div class="level-list">
-          <button class="btn-level-select" onclick="selectLevel('level1')">🌱 Cấp độ 1 (Level 1)</button>
-          <button class="btn-level-select" onclick="selectLevel('level2')">🌿 Cấp độ 2 (Level 2)</button>
-        </div>
-      </div>
-
-      <!-- BƯỚC 3: Chọn Chủ đề (Ẩn ban đầu) -->
-      <div id="step-topic" class="selection-step" style="display: none;">
-        <button class="btn-back-step" onclick="backToStep('level')">⬅ Chọn Level khác</button>
-        <h2 class="step-heading">Chọn Chủ Đề Học</h2>
-        <div id="topic-buttons-container" class="topic-grid">
-          <!-- Các nút chủ đề sẽ được JavaScript tự động điền vào đây -->
-        </div>
       </div>
     </div>
 
-    <!-- ================= 2. MÀN HÌNH HỌC FLASHCARD ================= -->
-    <div id="study-view" class="view-section" style="display: none;">
-      
-      <!-- Thông tin chủ đề đang học & Tốc độ -->
-      <div class="study-header-bar">
-        <span id="current-badge" class="badge-info">Level 1 • Động vật</span>
-        <div class="speed-controls">
-          <button class="speed-btn active" onclick="setSpeed(1.0)">1.0x</button>
-          <button class="speed-btn" onclick="setSpeed(0.75)">0.75x</button>
-        </div>
-      </div>
-
-      <!-- Thanh tiến trình -->
-      <div class="progress-container">
-        <div id="progress-bar-fill" class="progress-bar"></div>
-        <span id="progress-text">1 / 2</span>
-      </div>
-
-      <!-- Thẻ Flashcard 3D -->
-      <div class="card-container" onclick="flipCard()">
-        <div class="card-inner" id="card-inner">
-          <div class="card-front">
-            <img id="card-image" src="" alt="Illustration">
-            <h2 id="word">Word</h2>
-            <p id="meaning">Nghĩa tiếng Việt</p>
-            <button class="btn-audio" onclick="event.stopPropagation(); playCurrentFrontAudio();">🔊 Nghe</button>
-          </div>
-          <div class="card-back">
-            <h3 id="back-title">💡 Câu Ví Dụ</h3>
-            <p id="example-en" class="example-en">Example sentence</p>
-            <p id="example-vi" class="example-vi">Dịch câu ví dụ</p>
-            <button class="btn-audio" onclick="event.stopPropagation(); playCurrentBackAudio();">🔊 Nghe câu</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Nút Điều hướng -->
-      <div class="controls">
-        <button class="btn btn-prev" onclick="prevItem()">⬅ Quay lại</button>
-        <button class="btn btn-next" onclick="nextItem()">Tiếp theo ➡</button>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Popup Chúc Mừng -->
-  <div class="popup-overlay" id="congrat-popup" style="display: none;">
-    <div class="popup-content">
-      <h2 style="color: var(--primary-color, #ff9800); margin-bottom: 10px;">🎉 PHẦN THƯỞNG! 🎉</h2>
-      <p id="popup-message" style="font-size: 18px; color: #333;">Bé đã hoàn thành xuất sắc bài học!</p>
-      <div style="font-size: 36px; margin: 15px 0;">⭐ +5</div>
-      <button class="btn-continue" onclick="closePopupAndNext()">Về Trang Chủ 🚀</button>
+    <!-- NÚT CHUYỂN BÀI -->
+    <div class="navigation-controls">
+      <button id="prev-btn">⬅ Quay lại</button>
+      <button id="next-btn">Tiếp theo ➡</button>
     </div>
   </div>
 
-  <!-- Dữ liệu JS -->
-  <script src="js/data/vocab/level1.js"></script>
-  <script src="js/data/vocab/level2.js"></script>
-  <script src="js/data/sentences/level1.js"></script>
-
-  <script>
-    const vocabData = { level1: vocabLevel1, level2: vocabLevel2 };
-    const sentenceData = { level1: sentenceLevel1 };
-  </script>
-
-  <!-- Logic xử lý JS -->
-  <script src="js/audio.js"></script>
-  <script src="js/card-flip.js"></script>
-  <script src="js/reward.js"></script>
-  <script src="js/app.js"></script>
+  <!-- NHÚNG FILE DỮ LIỆU JS -->
+  <script src="js/data/level1/animals.js"></script>
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
